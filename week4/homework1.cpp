@@ -2,28 +2,40 @@
 #include <string>
 using namespace std;
 
-// Amount of students
-const int StudentNum = 20;
+const int MAX_STUDENTS = 20;
 
 int main() {
 
-    // Student Data Storage
-    string studentName[StudentNum];
-    int studentAge[StudentNum];
-    int studentIds[StudentNum];
+    int N;
+    
+    string studentName[MAX_STUDENTS];
+    string studentId[MAX_STUDENTS];
+    string studentPhone[MAX_STUDENTS];
 
-    for (int i = 0; i < StudentNum; i++) {
+    cout << "Enter number of students: ";
+    cin >> N;
 
-        cout << "Nhap ten sinh vien " << i + 1 << ": ";
-        getline(cin, studentName[i]);
+    while (N < 2 || N > 20) {
+        cout << "Enter again: ";
+        cin >> N;
+    }
 
-        cout << "Nhap tuoi sinh vien " << i + 1 << ": ";
-        cin >> studentAge[i];
+    for (int i = 0; i < N; i++) {
+        cout << "Enter name: ";
+        cin >> studentName[i];
 
-        cout << "Nhap ma so sinh vien " << i + 1 << ": ";
-        cin >> studentIds[i];
+        cout << "Enter ID: ";
+        cin >> studentId[i];
 
-        
+        cout << "Enter phone: ";
+        cin >> studentPhone[i];
+    }
+
+    for (int i = 0; i < N; i++) {
+        cout << "Student " << i + 1 << endl;
+        cout << "Name: " << studentName[i] << endl;
+        cout << "ID: " << studentId[i] << endl;
+        cout << "Phone: " << studentPhone[i] << endl;
     }
 
     return 0;

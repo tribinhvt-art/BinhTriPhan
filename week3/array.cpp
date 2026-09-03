@@ -5,12 +5,11 @@ using namespace std;
 
 int main()
 {
-    int n = 20; -- student counter
+    int n = 20;
 
-    string name[20]; --- student name 
-    string studentID[20]; --- student ids
-    string phone[20]; --- studen phones
-
+    string name[20];
+    string studentID[20];
+    string phone[20];
     for(int i = 0; i < n; i++)
     {
         cout << "Enter student " << i + 1 << ":" << endl;
