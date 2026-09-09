@@ -15,20 +15,29 @@ int main() {
       int i;
 
       // loop through every student to get data
-      for ( i = 0; i < N ; i++ ) {
+      for ( i = 1; i < N ; i++ ) {
         cout << "Nhap Diem student " << i << " : " "\n";
         cin >> studentPoints[i];
       }
+
+      int Passed;
+      int Failures;
+
       // loop through every student to print failures and successful students
-      for ( i = 0; i <  N ; i++) {
+      for ( i = 1; i <  N ; i++) {
         if (studentPoints[i] < 5) {
           cout << "Student" << i << " : Failure! "; 
+          Failures = Failures + 1;
         } else if (studentPoints[i] > 5 ) {
           cout << "Student" << i << " : Passed! "; 
+          Passed = Passed + 1;
         } 
       }
 
-
+      cout << "====== Statistics ======" ;
+      cout << "                        " ;
+      cout << "Passed: " << Passed << "Students";
+      cout << "Failed: " << Failures << "Students";
       
     } else { cout << "Invalid must be between 2 and 20 "; }
 }
