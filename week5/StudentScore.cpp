@@ -12,9 +12,19 @@ int main() {
 
       int studentPoints[N];
       int i;
+
+      // loop through every student to get data
       for ( i = 0; i < N ; i++ ) {
-        cout << "Nhap Diem studen " << i ;
+        cout << "Nhap Diem student " << i ;
         cin >> studentPoints[i];
+      }
+      // loop through every student to print failures and successful students
+      for ( i = 0; i <  N ; i++) {
+        if (studentPoints[i] < 5) {
+          cout << "Failed";
+        } else if (studentPoints[i] > 5 ) {
+          cout << "Passed";
+        } 
       }
       
     } else { cout << "Invalid must be between 2 and 20 "; }
