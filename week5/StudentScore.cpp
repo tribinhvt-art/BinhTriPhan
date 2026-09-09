@@ -9,24 +9,22 @@ int main() {
 
     // Checking if valid
     if (N > 2 && N < 20) {
-      cout << "Valid";
+      cout << "Valid \n";
 
       int studentPoints[N];
       int i;
 
       // loop through every student to get data
       for ( i = 0; i < N ; i++ ) {
-        cout << "Nhap Diem student " << i ;
+        cout << "Nhap Diem student " << i << " : " "\n";
         cin >> studentPoints[i];
       }
       // loop through every student to print failures and successful students
       for ( i = 0; i <  N ; i++) {
         if (studentPoints[i] < 5) {
-          cout << "Student" << i << "\n"; 
-          cout << "Failure! \n";
+          cout << "Student" << i << " : Failure! "; 
         } else if (studentPoints[i] > 5 ) {
-          cout << "Student" << i << "\n"; 
-          cout << "Passed! \n";
+          cout << "Student" << i << " : Passed! "; 
         } 
       }
 
