@@ -38,6 +38,18 @@ int main() {
       cout << "                        " ;
       cout << "Passed: " << Passed << "Students";
       cout << "Failed: " << Failures << "Students";
+
+      // loop through every student to find highest score and lowest score 
+      int highest = 0;
+      int lowest = 10;
+      for ( i = 1; i <  N ; i++) {
+        if (studentPoints[i] > highest) {
+          highest = studentPoints[i];
+        } 
+        if (studentPoints[i] < lowest) {
+          lowest = studentPoints[i];
+        } 
+      }
       
     } else { cout << "Invalid must be between 2 and 20 "; }
 }
