@@ -5,6 +5,7 @@ int main() {
     int N = 0;
      
     cout << "How many students? ";
+    cin >> N;
 
     // Checking if valid
     if (N > 2 && N < 20) {
@@ -21,11 +22,15 @@ int main() {
       // loop through every student to print failures and successful students
       for ( i = 0; i <  N ; i++) {
         if (studentPoints[i] < 5) {
-          cout << "Failed";
+          cout << "Student" << i << "\n"; 
+          cout << "Failure! \n";
         } else if (studentPoints[i] > 5 ) {
-          cout << "Passed";
+          cout << "Student" << i << "\n"; 
+          cout << "Passed! \n";
         } 
       }
+
+
       
     } else { cout << "Invalid must be between 2 and 20 "; }
 }
