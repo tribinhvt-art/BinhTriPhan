@@ -70,6 +70,34 @@ void Classify(double studentPoints[], int N, int Excel_Student) {
   cout << "Number of excellent students: " << Excel_Student << "\n";    
 }
 
+void aboveAverage(double studentPoints[], int N) {
+
+    double total = 0;
+
+    // Calculate total
+    for (int i = 0; i < N; i++) {
+        total = total + studentPoints[i];
+    }
+
+    double average = total / N;
+
+    cout << "\nAverage score: " << average << "\n";
+
+    cout << "Students above average:\n";
+
+    for (int i = 0; i < N; i++) {
+
+        if (studentPoints[i] > average) {
+
+            cout << "Student "
+                 << i + 1
+                 << ": "
+                 << studentPoints[i]
+                 << "\n";
+        }
+    }
+}
+
 int main() {
     int N = 0;
      
