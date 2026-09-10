@@ -1,74 +1,109 @@
 #include <iostream>
 using namespace std;
 
-// functions //
+// ================= FUNCTIONS =================
 
-
-// loop through every student to get data
-void gettingdata (double studentPoints[], int N) {
-  int i = 0;
-  for ( i = 0; i < N ; i++ ) {    
-      cout << "Nhap Diem student " << i << " : " "\n";
-      cin >> studentPoints[i];
-  }
+// Get student scores
+void gettingdata(double studentPoints[], int N) {
+    for (int i = 0; i < N; i++) {
+        cout << "Nhap diem Student " << i + 1 << ": ";
+        cin >> studentPoints[i];
+    }
 }
 
 
-// loop through every student to find highest score and lowest score 
-void highestandlowest(int highest, int lowest,  double studentPoints[], int N) {
- int i = 0;
- for ( i = 0; i <  N ; i++) {
-      if (studentPoints[i] > highest) {
-        highest = studentPoints[i];
-      } 
-      if (studentPoints[i] < lowest) {
-        lowest = studentPoints[i];
-      }   
-  }
-  cout << "Highest score: " << highest "\n";
-  cout << "Lowest score: " << lowest "\n";
-}
+// Passed / Failed
+void failnpass(double studentPoints[], int N) {
+    int Passed = 0;
+    int Failures = 0;
 
-// failed and passed
-void failnpass(double studentPoints[], int N, int Failures, int Passed) {
- int i;
- for ( i = 0; i <  N ; i++) {
-    if (studentPoints[i] < 5) {
-      cout << "Student " << i << " : Failure! \n"; 
-          Failures = Failures + 1;
-    } else if (studentPoints[i] > 5 ) {
-      cout << "Student " << i << " : Passed! \n"; 
-          Passed = Passed + 1;
-    } 
-  }
-}
+    for (int i = 0; i < N; i++) {
 
-// loop through every student to classify
-void Classify(double studentPoints[], int N, int Excel_Student) {
-  int i = 0;
-  for ( i = 0; i <  N ; i++) {
-        if (studentPoints[i] > 9 && studentPoints[i] < 10) {
-          cout << "student " << i << " Excellence\n";
-          Excel_Student = Excel_Student + 1;
-        } 
-        if (studentPoints[i] > 8 && studentPoints[i] < 9) {
-          cout << "student " << i << " Very Good\n";
-        } 
-        if (studentPoints[i] > 6.5 && studentPoints[i] < 8) {
-          cout << "student " << i << " Good\n";
-        } 
-        if (studentPoints[i] > 5 && studentPoints[i] < 6.5) {
-          cout << "student " << i << " Average\n";
-        } 
         if (studentPoints[i] < 5) {
-          cout << "student " << i << " Fail\n";
-        } 
-      }
-  if (Excel_Student == 0) {
-    cout << "IMAGINE NO EXCELLENT STUDENT AHAHAHAHA\n";
-  }    
-  cout << "Number of excellent students: " << Excel_Student << "\n";    
+            cout << "Student " << i + 1 << ": Failure!\n";
+            Failures++;
+        }
+        else {
+            cout << "Student " << i + 1 << ": Passed!\n";
+            Passed++;
+        }
+    }
+
+    cout << "\nPassed: " << Passed << " students\n";
+    cout << "Failed: " << Failures << " students\n";
 }
+
+
+// Highest and lowest
+void highestandlowest(double studentPoints[], int N) {
+
+    double highest = studentPoints[0];
+    double lowest = studentPoints[0];
+
+    for (int i = 1; i < N; i++) {
+
+        if (studentPoints[i] > highest) {
+            highest = studentPoints[i];
+        }
+
+        if (studentPoints[i] < lowest) {
+            lowest = studentPoints[i];
+        }
+    }
+
+    cout << "Highest score: " << highest << "\n";
+    cout << "Lowest score: " << lowest << "\n";
+}
+
+
+// Exercise 1 - Count excellent students
+void excellentStudents(double studentPoints[], int N) {
+
+    int count = 0;
+
+    for (int i = 0; i < N; i++) {
+
+        if (studentPoints[i] >= 9.0) {
+            count++;
+        }
+    }
+
+    cout << "Number of excellent students: " << count << "\n";
+}
+
+
+// Exercise 2 - Students in range
+void scoreRange(double studentPoints[], int N) {
+
+    double MINIMUM;
+    double MAXIMUM;
+
+    cout << "\nEnter minimum score: ";
+    cin >> MINIMUM;
+
+    cout << "Enter maximum score: ";
+    cin >> MAXIMUM;
+
+    int student_in_Range = 0;
+
+    for (int i = 0; i < N; i++) {
+
+        if (studentPoints[i] >= MINIMUM &&
+            studentPoints[i] <= MAXIMUM) {
+
+            student_in_Range++;
+        }
+    }
+
+    cout << "Students in range: "
+         << student_in_Range << "\n";
+}
+
+
+// ==================================================
+// EXERCISE 3
+// Find students above average
+// ==================================================
 
 void aboveAverage(double studentPoints[], int N) {
 
@@ -98,6 +133,12 @@ void aboveAverage(double studentPoints[], int N) {
     }
 }
 
+
+// ==================================================
+// EXERCISE 4
+// Find second highest score
+// ==================================================
+
 void secondHighest(double studentPoints[], int N) {
 
     double highest = -1;
@@ -122,28 +163,11 @@ void secondHighest(double studentPoints[], int N) {
     cout << "Second highest score: " << second << "\n";
 }
 
-void scoreFrequency(double studentPoints[], int N) {
 
-    double x;
-
-    cout << "\nEnter score: ";
-    cin >> x;
-
-    int count = 0;
-
-    for (int i = 0; i < N; i++) {
-
-        if (studentPoints[i] == x) {
-            count++;
-        }
-    }
-
-    cout << "Score "
-         << x
-         << " appears "
-         << count
-         << " times.\n";
-}
+// ==================================================
+// EXERCISE 5
+// Search for a score
+// ==================================================
 
 void searchScore(double studentPoints[], int N) {
 
@@ -170,6 +194,41 @@ void searchScore(double studentPoints[], int N) {
         cout << "Score not found!\n";
     }
 }
+
+
+// ==================================================
+// EXERCISE 6
+// Count score frequency
+// ==================================================
+
+void scoreFrequency(double studentPoints[], int N) {
+
+    double x;
+
+    cout << "\nEnter score: ";
+    cin >> x;
+
+    int count = 0;
+
+    for (int i = 0; i < N; i++) {
+
+        if (studentPoints[i] == x) {
+            count++;
+        }
+    }
+
+    cout << "Score "
+         << x
+         << " appears "
+         << count
+         << " times.\n";
+}
+
+
+// ==================================================
+// EXERCISE 7
+// Find first failing student
+// ==================================================
 
 void firstFailingStudent(double studentPoints[], int N) {
 
@@ -199,6 +258,11 @@ void firstFailingStudent(double studentPoints[], int N) {
 }
 
 
+// ==================================================
+// EXERCISE 8
+// Compare adjacent students
+// ==================================================
+
 void compareAdjacent(double studentPoints[], int N) {
 
     cout << "\nImproved students:\n";
@@ -215,6 +279,12 @@ void compareAdjacent(double studentPoints[], int N) {
         }
     }
 }
+
+
+// ==================================================
+// EXERCISE 9
+// Longest pass streak
+// ==================================================
 
 void longestPassStreak(double studentPoints[], int N) {
 
@@ -243,6 +313,12 @@ void longestPassStreak(double studentPoints[], int N) {
          << longestStreak
          << " students\n";
 }
+
+
+// ==================================================
+// EXERCISE 10
+// Score distribution
+// ==================================================
 
 void scoreDistribution(double studentPoints[], int N) {
 
@@ -298,63 +374,73 @@ void scoreDistribution(double studentPoints[], int N) {
          << range5 << "\n";
 }
 
+
+// ================= MAIN =================
+
 int main() {
-    int N = 0;
-     
+
+    int N;
+
     cout << "How many students? ";
     cin >> N;
 
-    // Checking if valid
-    if (N > 2 && N < 20) {
-      cout << "Valid \n";
+    if (N > 2 && N <= 20) {
 
-      double studentPoints[N];
-      int i;
+        cout << "Valid\n\n";
 
-      // loop through every student to get data
-      gettingdata(studentPoints, N);
+        // Maximum 20 students
+        double studentPoints[20];
 
-      //loop through every student to print failures and successful students
-      int Passed = 0 ;
-      int Failures = 0 ;
-      failnpass(studentPoints, N, Passed, Failures);
-      
-      cout << "\n====== Statistics ======\n";
-      cout << "Passed: " << Passed << " Students\n";
-      cout << "Failed: " << Failures << " Students\n";
+        gettingdata(studentPoints, N);
 
-      // loop through every student to find highest score and lowest score 
-      int highest = 0;
-      int lowest = 10;
-      highestandlowest(highest,lowest,studentPoints,N);
-      
-      
 
-      // loop through every student to classify
-      int Excel_Student = 0;
-      Classify(studentPoints, N, Excel_Student);
-      
-      int student_Range;
-      int MINIMUM;
-      int MAXIMUM;
-      cout << "Enter a range of points in the following format MINIMUM < your number < MAXIMUM";
-      cin >> MINIMUM;
-      cin >> MAXIMUM;
-      int i = 0;
-      int student_in_Range;
-      for (i = 0; i < N; i++ ) {
-        if (studentPoints > MINIMUM && studentPoints < MAXIMUM) {
-          student_in_Range = student_in_Range + 1;
-        }
-      }
-      cout << "Students in Range: " << student_in_Range;
+        cout << "\n====== Basic Statistics ======\n";
 
-      secondHighest( studentPoints,  N);
-      scoreFrequency(studentPoints, N);
-      firstFailingStudent( studentPoints, N );
-      compareAdjacent( studentPoints, N);
-      longestPassStreak(studentPoints, N);
-      scoreDistribution( studentPoints, N);
-      
-    } else { cout << "Invalid must be between 2 and 20 "; }
+        failnpass(studentPoints, N);
+
+        highestandlowest(studentPoints, N);
+
+        excellentStudents(studentPoints, N);
+
+        scoreRange(studentPoints, N);
+
+
+        cout << "\n\n====== EXERCISE 3 ======\n";
+        aboveAverage(studentPoints, N);
+
+
+        cout << "\n\n====== EXERCISE 4 ======\n";
+        secondHighest(studentPoints, N);
+
+
+        cout << "\n\n====== EXERCISE 5 ======\n";
+        searchScore(studentPoints, N);
+
+
+        cout << "\n\n====== EXERCISE 6 ======\n";
+        scoreFrequency(studentPoints, N);
+
+
+        cout << "\n\n====== EXERCISE 7 ======\n";
+        firstFailingStudent(studentPoints, N);
+
+
+        cout << "\n\n====== EXERCISE 8 ======\n";
+        compareAdjacent(studentPoints, N);
+
+
+        cout << "\n\n====== EXERCISE 9 ======\n";
+        longestPassStreak(studentPoints, N);
+
+
+        cout << "\n\n====== EXERCISE 10 ======\n";
+        scoreDistribution(studentPoints, N);
+    }
+
+    else {
+
+        cout << "Invalid! Must be between 3 and 20.\n";
+    }
+
+    return 0;
 }
