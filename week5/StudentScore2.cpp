@@ -109,14 +109,17 @@ int main() {
       int student_Range;
       int MINIMUM;
       int MAXIMUM;
-      cout << "Enter a range of points in the following format MINIMUM < your number , MAXIMUM";
+      cout << "Enter a range of points in the following format MINIMUM < your number < MAXIMUM";
       cin >> MINIMUM;
       cin >> MAXIMUM;
       int i = 0;
+      int student_in_Range;
       for (i = 0; i < N; i++ ) {
-        
+        if (studentPoints > MINIMUM && studentPoints < MAXIMUM) {
+          student_in_Range = student_in_Range + 1;
+        }
       }
-      
+      cout << "Students in Range: " << student_in_Range;
       
     } else { cout << "Invalid must be between 2 and 20 "; }
 }
