@@ -353,8 +353,8 @@ int main() {
       scoreFrequency(studentPoints, N);
       firstFailingStudent( studentPoints, N );
       compareAdjacent( studentPoints, N);
-      longestPassStreak(studentPoints, N)
-      scoreDistribution( studentPoints, N)
+      longestPassStreak(studentPoints, N);
+      scoreDistribution( studentPoints, N);
       
     } else { cout << "Invalid must be between 2 and 20 "; }
 }
