@@ -98,6 +98,30 @@ void aboveAverage(double studentPoints[], int N) {
     }
 }
 
+void secondHighest(double studentPoints[], int N) {
+
+    double highest = -1;
+    double second = -1;
+
+    for (int i = 0; i < N; i++) {
+
+        if (studentPoints[i] > highest) {
+
+            second = highest;
+            highest = studentPoints[i];
+        }
+
+        else if (studentPoints[i] > second &&
+                 studentPoints[i] < highest) {
+
+            second = studentPoints[i];
+        }
+    }
+
+    cout << "\nHighest score: " << highest << "\n";
+    cout << "Second highest score: " << second << "\n";
+}
+
 int main() {
     int N = 0;
      
@@ -148,6 +172,8 @@ int main() {
         }
       }
       cout << "Students in Range: " << student_in_Range;
+
+      secondHighest( studentPoints,  N);
       
     } else { cout << "Invalid must be between 2 and 20 "; }
 }
