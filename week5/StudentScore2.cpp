@@ -122,6 +122,55 @@ void secondHighest(double studentPoints[], int N) {
     cout << "Second highest score: " << second << "\n";
 }
 
+void scoreFrequency(double studentPoints[], int N) {
+
+    double x;
+
+    cout << "\nEnter score: ";
+    cin >> x;
+
+    int count = 0;
+
+    for (int i = 0; i < N; i++) {
+
+        if (studentPoints[i] == x) {
+            count++;
+        }
+    }
+
+    cout << "Score "
+         << x
+         << " appears "
+         << count
+         << " times.\n";
+}
+
+void searchScore(double studentPoints[], int N) {
+
+    double search;
+
+    cout << "\nEnter score to search: ";
+    cin >> search;
+
+    bool found = false;
+
+    cout << "Found at:\n";
+
+    for (int i = 0; i < N; i++) {
+
+        if (studentPoints[i] == search) {
+
+            cout << "Student " << i + 1 << "\n";
+
+            found = true;
+        }
+    }
+
+    if (found == false) {
+        cout << "Score not found!\n";
+    }
+}
+
 int main() {
     int N = 0;
      
@@ -174,6 +223,7 @@ int main() {
       cout << "Students in Range: " << student_in_Range;
 
       secondHighest( studentPoints,  N);
+      scoreFrequency(studentPoints, N);
       
     } else { cout << "Invalid must be between 2 and 20 "; }
 }
