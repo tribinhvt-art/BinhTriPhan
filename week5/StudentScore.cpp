@@ -1,6 +1,75 @@
 #include <iostream>
 using namespace std;
 
+// functions //
+
+
+// loop through every student to get data
+void gettingdata (double studentPoints[], int N) {
+  int i = 0;
+  for ( i = 0; i < N ; i++ ) {    
+      cout << "Nhap Diem student " << i << " : " "\n";
+      cin >> studentPoints[i];
+  }
+}
+
+
+// loop through every student to find highest score and lowest score 
+void highestandlowest(int highest, int lowest,  double studentPoints[], int N) {
+ int i = 0;
+ for ( i = 0; i <  N ; i++) {
+      if (studentPoints[i] > highest) {
+        highest = studentPoints[i];
+      } 
+      if (studentPoints[i] < lowest) {
+        lowest = studentPoints[i];
+      }   
+  }
+  cout << "Highest score: " << highest "\n";
+  cout << "Lowest score: " << lowest "\n";
+}
+
+// failed and passed
+void failnpass(double studentPoints[], int N, int Failures, int Passed) {
+ int i;
+ for ( i = 0; i <  N ; i++) {
+    if (studentPoints[i] < 5) {
+      cout << "Student " << i << " : Failure! \n"; 
+          Failures = Failures + 1;
+    } else if (studentPoints[i] > 5 ) {
+      cout << "Student " << i << " : Passed! \n"; 
+          Passed = Passed + 1;
+    } 
+  }
+}
+
+// loop through every student to classify
+void Classify(double studentPoints[], int N, int Excel_Student) {
+  int i = 0;
+  for ( i = 0; i <  N ; i++) {
+        if (studentPoints[i] > 9 && studentPoints[i] < 10) {
+          cout << "student " << i << " Excellence\n";
+          Excel_Student = Excel_Student + 1;
+        } 
+        if (studentPoints[i] > 8 && studentPoints[i] < 9) {
+          cout << "student " << i << " Very Good\n";
+        } 
+        if (studentPoints[i] > 6.5 && studentPoints[i] < 8) {
+          cout << "student " << i << " Good\n";
+        } 
+        if (studentPoints[i] > 5 && studentPoints[i] < 6.5) {
+          cout << "student " << i << " Average\n";
+        } 
+        if (studentPoints[i] < 5) {
+          cout << "student " << i << " Fail\n";
+        } 
+      }
+  if (Excel_Student == 0) {
+    cout << "IMAGINE NO EXCELLENT STUDENT AHAHAHAHA\n";
+  }    
+  cout << "Number of excellent students: " << Excel_Student << "\n";    
+}
+
 int main() {
     int N = 0;
      
@@ -15,60 +84,39 @@ int main() {
       int i;
 
       // loop through every student to get data
-      for ( i = 0; i < N ; i++ ) {
-        cout << "Nhap Diem student " << i << " : " "\n";
-        cin >> studentPoints[i];
-      }
+      gettingdata(studentPoints, N);
 
+      //loop through every student to print failures and successful students
       int Passed = 0 ;
       int Failures = 0 ;
-
-      // loop through every student to print failures and successful students
-      // for ( i = 0; i <  N ; i++) {
-      //   if (studentPoints[i] < 5) {
-      //     cout << "Student" << i << " : Failure! "; 
-      //     Failures = Failures + 1;
-      //   } else if (studentPoints[i] > 5 ) {
-      //     cout << "Student" << i << " : Passed! "; 
-      //     Passed = Passed + 1;
-      //   } 
-      // }
-
-      cout << "====== Statistics ======" ;
-      cout << "                        " ;
-      cout << "Passed: " << Passed << "Students";
-      cout << "Failed: " << Failures << "Students";
+      failnpass(studentPoints, N, Passed, Failures);
+      
+      cout << "\n====== Statistics ======\n";
+      cout << "Passed: " << Passed << " Students\n";
+      cout << "Failed: " << Failures << " Students\n";
 
       // loop through every student to find highest score and lowest score 
       int highest = 0;
       int lowest = 10;
-      for ( i = 0; i <  N ; i++) {
-        if (studentPoints[i] > highest) {
-          highest = studentPoints[i];
-        } 
-        if (studentPoints[i] < lowest) {
-          lowest = studentPoints[i];
-        } 
-      }
+      highestandlowest(highest,lowest,studentPoints,N);
+      
+      
 
       // loop through every student to classify
-      for ( i = 0; i <  N ; i++) {
-        if (studentPoints[i] > 9 && studentPoints[i] < 10) {
-          cout << studentPoints[i] << "Excellence";
-        } 
-        if (studentPoints[i] > 8 && studentPoints[i] < 9) {
-          cout << studentPoints[i] << "Very Good";
-        } 
-        if (studentPoints[i] > 6.5 && studentPoints[i] < 8) {
-          cout << studentPoints[i] << "Good";
-        } 
-        if (studentPoints[i] > 5 && studentPoints[i] < 6.5) {
-          cout << studentPoints[i] << "Average";
-        } 
-        if (studentPoints[i] < 5) {
-          cout << studentPoints[i] << "Fail";
-        } 
+      int Excel_Student = 0;
+      Classify(studentPoints, N, Excel_Student);
+      
+      int student_Range;
+      int MINIMUM;
+      int MAXIMUM;
+      cout << "Enter a range of points in the following format MINIMUM < your number , MAXIMUM";
+      cin >> MINIMUM;
+      cin >> MAXIMUM;
+      int i = 0;
+      for (i = 0; i < N; i++ ) {
+        
       }
+      
       
     } else { cout << "Invalid must be between 2 and 20 "; }
 }
