@@ -28,9 +28,17 @@ void printStudentInfo (string studentName, string studentId, double score) {
     cout << "----------------------" << endl;
     cout << "Name:" << studentName << endl;
     cout << "Id:" << studentId << endl;
+    cout << "----------------------" << endl;   
+}
+
+void showScore (string studentName, string studentId, double score) {
+    cout << "----------------------" << endl;
+    cout << "Name:" << studentName << endl;
+    cout << "Id:" << studentId << endl;
     cout << "Score:" << score << endl;
     cout << "----------------------" << endl;   
 }
+
 
 int main() {
   showWelcome();
@@ -51,6 +59,7 @@ int main() {
   showMenu();
   showStudentName(studentName);
   showStudentId(studentId);  
-  printStudentInfo(studentName, studentId, score);
+  printStudentInfo(studentName, studentId);
+  showScore(studentName, studentId, score);
   return 0;
 }
