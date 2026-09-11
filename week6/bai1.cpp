@@ -2,6 +2,15 @@
 #include <string>
 using namespace std;
 
+void showStudentName(string name) {
+    cout << "Hello," << name << "!" << endl;
+    cout << "Welcome to our class!" << endl;
+}
+
+void showStudentId(string studentId) {
+    cout << "Student ID: " << studentId << "!" << endl;
+}
+
 void showWelcome() {
     cout << "==============================" << endl;
     cout << "  Welcome to Student Manager  " << endl;
@@ -15,12 +24,33 @@ void showMenu() {
     cout << "================" << endl;
 }
 
+void printStudentInfo (string studentName, string studentId, double score) {
+    cout << "----------------------" << endl;
+    cout << "Name:" << studentName << endl;
+    cout << "Id:" << studentId << endl;
+    cout << "Score:" << score << endl;
+    cout << "----------------------" << endl;   
+}
 
 int main() {
   showWelcome();
 
   cout << "  Lets get started  " << endl;
 
-  showMenu()
+  string studentName;
+  string studentId;
+  double score;
+
+  cout << "Enter your name: " << endl;
+  getline(cin, studentName);
+  cout << "Enter student id: " << endl;
+  cin >> studentId;
+  cout << "Enter student score: " << endl;
+  cin >> score;
+
+  showMenu();
+  showStudentName(studentName);
+  showStudentId(studentId);  
+  printStudentInfo(studentName, studentId, score);
   return 0;
 }
