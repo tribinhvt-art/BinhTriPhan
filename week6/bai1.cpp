@@ -39,6 +39,14 @@ void showScore (string studentName, string studentId, double score) {
     cout << "----------------------" << endl;   
 }
 
+int maxValue(int a, int b) {
+    if (a > b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
 
 int main() {
   showWelcome();
@@ -61,5 +69,18 @@ int main() {
   showStudentId(studentId);  
   printStudentInfo(studentName, studentId);
   showScore(studentName, studentId, score);
+
+  int a, b;
+
+    cout << "Enter a: ";
+    cin >> a;
+
+    cout << "Enter b: ";
+    cin >> b;
+
+    int result = maxValue(a, b);
+
+    cout << "Max value: " << result << endl;
+
   return 0;
 }
