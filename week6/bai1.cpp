@@ -47,6 +47,38 @@ int maxValue(int a, int b) {
     }
 }
 
+struct ScoreInfo {
+    double sum;
+    double average;
+    double maxScore;
+    double minScore;
+};
+
+ScoreInfo analyzeScores(double scores[], int n) {
+    ScoreInfo result;
+
+    result.sum = 0;
+    result.maxScore = scores[0];
+    result.minScore = scores[0];
+
+    for (int i = 0; i < n; i++) {
+
+        result.sum = result.sum + scores[i];
+
+        if (scores[i] > result.maxScore) {
+            result.maxScore = scores[i];
+        }
+
+        if (scores[i] < result.minScore) {
+            result.minScore = scores[i];
+        }
+    }
+
+    result.average = result.sum / n;
+
+    return result;
+}
+
 
 int main() {
   showWelcome();
@@ -81,6 +113,20 @@ int main() {
     int result = maxValue(a, b);
 
     cout << "Max value: " << result << endl;
+
+  double scores[5];
+
+    for (int i = 0; i < 5; i++) {
+        cout << "Enter score " << i + 1 << ": ";
+        cin >> scores[i];
+    }
+
+    ScoreInfo info = analyzeScores(scores, 5);
+
+    cout << "Total: " << info.sum << endl;
+    cout << "Average: " << info.average << endl;
+    cout << "Max score: " << info.maxScore << endl;
+    cout << "Min score: " << info.minScore << endl;  
 
   return 0;
 }
