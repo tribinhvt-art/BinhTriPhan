@@ -12,6 +12,11 @@ using namespace std;
         int    year;
     };
 
+  struct lab {
+    string ma_phong;
+    string chuc_nang;
+  }
+    
 void getComputerInfo(Computer computers[],int so_luong) {
    cout << "Nhap Id máy:";
    int Id_nhap_tay;
@@ -76,14 +81,13 @@ void getAllComputerInfo(Computer computers[], int so_luong) {
 }
 
 void showLabInfo() {
-   string phong_lab;
-   string chuc_nang;
+   lab a;
    cout << "Nhap thong tin Lab: ";
    cout << "Nhap chuc nang phong lab:";   
-   cin >> phong_lab;
-   cin >> chuc_nang;
-   cout << "Phong lab: " << phong_lab;
-   cout << "Chuc nang: " << chuc_nang;
+   cin >> a.ma_phong;
+   cin >> a.chuc_nang;
+   cout << "Phong lab: " << a.ma_phong;
+   cout << "Chuc nang: " << a.chuc_nang;
 }
 
 int main() {
