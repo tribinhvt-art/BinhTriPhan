@@ -3,6 +3,16 @@
 #include <limits>
 using namespace std;
 
+struct lab {
+    string ma_phong;
+    string chuc_nang;
+};
+
+
+lab labs[100];
+int so_luonglab;
+
+
 struct Computer {
     int Id;
     string Ten_may;
@@ -13,10 +23,6 @@ struct Computer {
     int year;
 };
 
-struct lab {
-    string ma_phong;
-    string chuc_nang;
-};
 
 void getComputerInfo(Computer computers[], int so_luong, int Id_nhap_tay) {
 
@@ -88,20 +94,35 @@ void getAllComputerInfo(Computer computers[], int so_luong) {
     }
 }
 
+void getLabInfo() {
+    
+
+    cout << "Nhap so luong labs: ";
+    cin >> so_luonglab;
+    for (int i = 0 ; i < so_luonglab ; i++ ) {
+      cout << "Nhap ma phong lab: ";
+      cin >> labs[i].ma_phong;
+
+      cout << "Nhap chuc nang phong lab: ";
+      cin >> labs[i].chuc_nang;
+    }
+
+    
+}
+
 void showLabInfo() {
-    lab a;
-
-    cout << "Nhap ma phong lab: ";
-    cin >> a.ma_phong;
-
-    cout << "Nhap chuc nang phong lab: ";
-    cin >> a.chuc_nang;
-
-    cout << "Phong lab: " << a.ma_phong << endl;
-    cout << "Chuc nang: " << a.chuc_nang << endl;
+  for (int i = 0 ; i < so_luonglab ; i++ ) {
+      cout << "Mã Phòng Lab: " << labs[i].ma_phong << "\n";
+      cout << "Chức năng Phòng Lab: " << labs[i].chuc_nang << "\n";
+    }
 }
 
 int main() {
+
+
+    getLabInfo();
+    showLabInfo();
+
 
     int so_luong;
 
