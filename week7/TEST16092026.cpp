@@ -18,10 +18,7 @@ struct lab {
     string chuc_nang;
 };
 
-void getComputerInfo(Computer computers[], int so_luong) {
-    cout << "Nhap Id may: ";
-    int Id_nhap_tay;
-    cin >> Id_nhap_tay;
+void getComputerInfo(Computer computers[], int so_luong, int Id_nhap_tay) {
 
     for (int i = 0; i < so_luong; i++) {
         if (Id_nhap_tay == computers[i].Id) {
@@ -39,10 +36,7 @@ void getComputerInfo(Computer computers[], int so_luong) {
     cout << "Khong tim thay may!\n";
 }
 
-Computer getComputerInfo1(Computer computers[], int so_luong) {
-    cout << "Nhap Id may: ";
-    int Id_nhap_tay;
-    cin >> Id_nhap_tay;
+Computer getComputerInfo1(Computer computers[], int so_luong, int Id_nhap_tay) {
 
     for (int i = 0; i < so_luong; i++) {
         if (Id_nhap_tay == computers[i].Id) {
@@ -53,23 +47,8 @@ Computer getComputerInfo1(Computer computers[], int so_luong) {
     return Computer{};
 }
 
-void getComputers(Computer computers[], int so_luong, Computer COMPUTERWTF[]) {
-    for (int i = 0; i < so_luong; i++) {
-        cout << "Id may: " << computers[i].Id << endl;
-        COMPUTERWTF[i].Id = computers[i].Id;
-        cout << "Ten may: " << computers[i].Ten_may << endl;
-        COMPUTERWTF[i].Ten_may = computers[i].Ten_may;
-        cout << "He dieu hanh: " << computers[i].Hdh << endl;
-        COMPUTERWTF[i].Hdh = computers[i].Hdh;
-        cout << "Username: " << computers[i].Username << endl;
-        COMPUTERWTF[i].Username = computers[i].Username;
-        cout << "Password: " << computers[i].Pwd << endl;
-        COMPUTERWTF[i].Pwd = computers[i].Pwd;
-        cout << "Model: " << computers[i].Model << endl;
-        COMPUTERWTF[i].Model = computers[i].Model;
-        cout << "Year: " << computers[i].year << endl;
-        COMPUTERWTF[i].year = computers[i].year;
-    }
+Computer* getComputers(Computer computers[], int so_luong) {
+    return computers;
 }
 
 void showComputer(Computer computer) {
@@ -139,14 +118,20 @@ int main() {
     showLabInfo();
 
     // Cau 2
-    getComputerInfo(computers, so_luong);
+    int Id_nhap_tay;
+    cout << "Nhap Id tu tay:" ;
+    cin >> Id_nhap_tay;
+    getComputerInfo(computers, so_luong, Id_nhap_tay);
 
     // Cau 3
-    Computer cau_3 = getComputerInfo1(computers, so_luong);
+  
+    cout << "Nhap Id tu tay:" ;
+    cin >> Id_nhap_tay;
+    Computer cau_3 = getComputerInfo1(computers, so_luong, Id_nhap_tay);
 
     // Cau 4
     Computer COMPUTERWTF[so_luong];
-    getComputers(computers, so_luong, COMPUTERWTF);
+    getComputers(computers, so_luong);
 
     return 0;
 }
