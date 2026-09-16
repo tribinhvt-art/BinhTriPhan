@@ -130,8 +130,7 @@ int main() {
     Computer cau_3 = getComputerInfo1(computers, so_luong, Id_nhap_tay);
 
     // Cau 4
-    Computer COMPUTERWTF[so_luong];
-    getComputers(computers, so_luong);
+    Computer* COMPUTERWTF = getComputers(computers, so_luong);
 
     return 0;
 }
