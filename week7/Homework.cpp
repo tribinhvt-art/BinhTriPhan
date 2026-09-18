@@ -2,128 +2,148 @@
 #include <iostream>
 using namespace std;
 
-struct book {
-  int id;
-  char title[200];
-  char author[50];
-  double price;
+struct Sach {
+    int maSach;
+    char tenSach[200];
+    char tenTacGia[50];
+    double giaSach;
 
-  void inputbook() {
-    cout << "Nhap ma sach : ";
-    cin >> id;
-    cin.ignore();
-    cout << "Nhap ten sach: ";
-    cin.getline(title, 200);
-    cout << "Nhap tac gia : ";
-    cin.getline(author, 50);
-    cout << "Nhap price   : ";
-    cin >> price;
-    cin.ignore();
-  }
+    void nhapSach() {
+        cout << "Nhap ID cuon sach: ";
+        cin >> maSach;
+        cin.ignore();
 
-  void outputbook() {
-    printf("ID     : %d\n", id);
-    printf("Sach   : %s\n", title);
-    printf("Tac gia: %s\n", author);
-    printf("Price  : %.1f\n", price);
-  }
+        cout << "Nhap tieu de sach: ";
+        cin.getline(tenSach, 200);
+
+        cout << "Nhap ten tac gia: ";
+        cin.getline(tenTacGia, 50);
+
+        cout << "Nhap gia sach: ";
+        cin >> giaSach;
+        cin.ignore();
+    }
+
+    void hienThiSach() {
+        printf("Ma sach    : %d\n", maSach);
+        printf("Ten sach   : %s\n", tenSach);
+        printf("Tac gia    : %s\n", tenTacGia);
+        printf("Gia        : %.1f\n", giaSach);
+    }
 };
 
-struct thuvien {
-  int idlib;
-  char namelib[100];
-  int numbooks;
-  book books[100];
+struct ThuVien {
+    int maThuVien;
+    char tenThuVien[100];
+    int soSach;
+    Sach danhSach[100];
 
-  void outlibrary() {
-    cout << "=== DANH SACH SACH TRONG: " << namelib << " (Ma: " << idlib
-         << ") ===\n";
-    for (int i = 0; i < numbooks; i++) {
-      books[i].outputbook();
-      cout << "---------------------\n";
+    void hienThiThuVien() {
+        cout << "===== THU VIEN: " << tenThuVien
+             << " | ID: " << maThuVien << " =====\n";
+
+        for (int i = 0; i < soSach; i++) {
+            danhSach[i].hienThiSach();
+            cout << "--------------------------\n";
+        }
     }
-  }
 
-  void inputlib1() {
-    cout << "Nhap ma thu vien : ";
-    cin >> idlib;
-    cin.ignore();
-    cout << "Nhap ten thu vien: ";
-    cin.getline(namelib, 100);
-    cout << "So luong sach    : ";
-    cin >> numbooks;
-    cin.ignore();
-    cout << endl;
+    void nhapThuVien() {
+        cout << "Nhap ID thu vien: ";
+        cin >> maThuVien;
+        cin.ignore();
 
-    for (int i = 0; i < numbooks; i++) {
-      cout << "--- Nhap thong tin quyen sach thu " << i + 1 << " ---\n";
-      books[i].inputbook();
+        cout << "Nhap ten thu vien: ";
+        cin.getline(tenThuVien, 100);
+
+        cout << "Nhap tong so sach: ";
+        cin >> soSach;
+        cin.ignore();
+
+        cout << endl;
+
+        for (int i = 0; i < soSach; i++) {
+            cout << "--- Nhap cuon sach so " << i + 1 << " ---\n";
+            danhSach[i].nhapSach();
+        }
+
+        cout << endl;
     }
-    cout << endl;
-  }
-  
-  void PrintBookInfo(int SearchId) {
-    for (int i = 0; i < numbooks; i++) {
-      if (books[i].id == SearchId) {
-        books[i].outputbook();
-        return;
-      }
+
+    void timSach(int maCanTim) {
+        for (int i = 0; i < soSach; i++) {
+            if (danhSach[i].maSach == maCanTim) {
+                danhSach[i].hienThiSach();
+                return;
+            }
+        }
+
+        cout << "Khong co cuon sach nao co ID nay!\n";
     }
-    cout << "Khong tim thay sach!\n";
-  }
 
-  void addbook(book a) {
-    if (numbooks < 100) {
-      books[numbooks] = a;
-      numbooks++;
+    void themSach(Sach sachMoi) {
+        if (soSach < 100) {
+            danhSach[soSach] = sachMoi;
+            soSach++;
+        }
     }
-  }
 
+    Sach layThongTinSach(int maCanTim) {
+        for (int i = 0; i < soSach; i++) {
+            if (danhSach[i].maSach == maCanTim) {
+                return danhSach[i];
+            }
+        }
 
-  book getbookinfo(int SearchId) {
-    for (int i = 0; i < numbooks; i++) {
-      if (books[i].id == SearchId) {
-        return books[i];
-      }
+        Sach sachRong;
+        sachRong.maSach = -1;
+        return sachRong;
     }
-    book emptybook;
-    emptybook.id = -1;
-    return emptybook;
-  }
 
-  book *getbooks() { return books; }
+    Sach* layDanhSachSach() {
+        return danhSach;
+    }
 };
 
 int main() {
-  thuvien lib;
-  lib.inputlib1();
-  lib.outlibrary();
+    ThuVien thuVienChinh;
 
-  book newbook;
-  cout << "\n--- Nhap sach can them moi ---\n";
-  newbook.inputbook();
-  lib.addbook(newbook);
-  cout << endl;
+    thuVienChinh.nhapThuVien();
+    thuVienChinh.hienThiThuVien();
 
-  int SearchId;
-  cout << "Nhap ID sach muon tim (in truc tiep): ";
-  cin >> SearchId;
-  lib.PrintBookInfo(SearchId);
-  cout << endl;
+    Sach sachThem;
+    sachThem.nhapSach();
 
-  cout << "Nhap ID sach muon lay thong tin (tra ve doi tuong): ";
-  cin >> SearchId;
-  book foundbook = lib.getbookinfo(SearchId);
-  if (foundbook.id != -1) {
-    cout << "Tim thay:\n";
-    foundbook.outputbook();
-  } else {
-    cout << "Khong tim thay!\n";
-  }
+    thuVienChinh.themSach(sachThem);
 
-  book *allbooks = lib.getbooks();
-  cout << "Thong tin sach dau tien trong danh sach:\n";
-  allbooks[0].outputbook();
+    cout << endl;
 
-  return 0;
+    int maTimKiem;
+
+    cout << "Nhap ma sach can tra cuu: ";
+    cin >> maTimKiem;
+
+    thuVienChinh.timSach(maTimKiem);
+
+    cout << endl;
+
+    cout << "Nhap ma sach can xem chi tiet: ";
+    cin >> maTimKiem;
+
+    Sach ketQua = thuVienChinh.layThongTinSach(maTimKiem);
+
+    if (ketQua.maSach != -1) {
+        cout << "Thong tin cuon sach tim duoc:\n";
+        ketQua.hienThiSach();
+    } 
+    else {
+        cout << "Khong tim thay cuon sach phu hop!\n";
+    }
+
+    Sach* danhSachSach = thuVienChinh.layDanhSachSach();
+
+    cout << "Thong tin cuon sach dau tien:\n";
+    danhSachSach[0].hienThiSach();
+
+    return 0;
 }
