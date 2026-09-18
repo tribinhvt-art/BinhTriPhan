@@ -35,7 +35,16 @@ struct thuvien {
   int numbooks;
   book books[100];
 
-  void inputlib() {
+  void outlibrary() {
+    cout << "=== DANH SACH SACH TRONG: " << namelib << " (Ma: " << idlib
+         << ") ===\n";
+    for (int i = 0; i < numbooks; i++) {
+      books[i].outputbook();
+      cout << "---------------------\n";
+    }
+  }
+
+  void inputlib1() {
     cout << "Nhap ma thu vien : ";
     cin >> idlib;
     cin.ignore();
@@ -52,14 +61,15 @@ struct thuvien {
     }
     cout << endl;
   }
-
-  void outputlibrary() {
-    cout << "=== DANH SACH SACH TRONG: " << namelib << " (Ma: " << idlib
-         << ") ===\n";
+  
+  void PrintBookInfo(int SearchId) {
     for (int i = 0; i < numbooks; i++) {
-      books[i].outputbook();
-      cout << "---------------------\n";
+      if (books[i].id == SearchId) {
+        books[i].outputbook();
+        return;
+      }
     }
+    cout << "Khong tim thay sach!\n";
   }
 
   void addbook(book a) {
@@ -69,19 +79,10 @@ struct thuvien {
     }
   }
 
-  void printbookinfo(int searchid) {
-    for (int i = 0; i < numbooks; i++) {
-      if (books[i].id == searchid) {
-        books[i].outputbook();
-        return;
-      }
-    }
-    cout << "Khong tim thay sach!\n";
-  }
 
-  book getbookinfo(int searchid) {
+  book getbookinfo(int SearchId) {
     for (int i = 0; i < numbooks; i++) {
-      if (books[i].id == searchid) {
+      if (books[i].id == SearchId) {
         return books[i];
       }
     }
@@ -95,8 +96,8 @@ struct thuvien {
 
 int main() {
   thuvien lib;
-  lib.inputlib();
-  lib.outputlibrary();
+  lib.inputlib1();
+  lib.outlibrary();
 
   book newbook;
   cout << "\n--- Nhap sach can them moi ---\n";
@@ -104,15 +105,15 @@ int main() {
   lib.addbook(newbook);
   cout << endl;
 
-  int searchid;
+  int SearchId;
   cout << "Nhap ID sach muon tim (in truc tiep): ";
-  cin >> searchid;
-  lib.printbookinfo(searchid);
+  cin >> SearchId;
+  lib.PrintBookInfo(SearchId);
   cout << endl;
 
   cout << "Nhap ID sach muon lay thong tin (tra ve doi tuong): ";
-  cin >> searchid;
-  book foundbook = lib.getbookinfo(searchid);
+  cin >> SearchId;
+  book foundbook = lib.getbookinfo(SearchId);
   if (foundbook.id != -1) {
     cout << "Tim thay:\n";
     foundbook.outputbook();
