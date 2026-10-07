@@ -2,6 +2,8 @@
 #include <string>
 using namespace std;
 
+
+
 // Class Date
 class Date {
 private:
@@ -155,6 +157,13 @@ int main() {
     cout << "\nSearch student by CCCD:" << endl;
 
     Student result = student4.getStudentInfo("012345678901");
+
+    Student students[10];
+    int n  = 10;
+
+    for (int i  = 1; i < n ; i ++) {
+      students[i].setStudentInfo();
+    }
 
     result.display();
 
