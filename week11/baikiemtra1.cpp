@@ -28,9 +28,9 @@ public:
     }
 
     // 3. Constructor with 2 parameters
-    Fish(int id, string name) {
-        this->id = id;
-        this->name = name;
+    Fish(int newid, string newname) {
+        id = newid;
+        name = newname;
         color = "Unknown";
         characteristic = "Unknown";
     }
@@ -53,48 +53,50 @@ public:
     }
 
     // Getters
-    int getId() {
+    int Getid() {
         return id;
     }
 
-    string getName() {
+    string GetName() {
         return name;
     }
 
-    string getColor() {
+    string GetColor() {
         return color;
     }
 
-    string getCharacteristic() {
+    string GetCharacteristics() {
         return characteristic;
     }
 
-    // Setters
-    void setId(int id) {
+    // Setters method
+
+    int SetId(int id){
         this->id = id;
     }
 
-    void setName(string name) {
-        this->name = name;
-    }
-
-    void setColor(string color) {
+    string SetColor(string color){
         this->color = color;
     }
 
-    void setCharacteristic(string characteristic) {
-        this->characteristic = characteristic;
+    string SetName(string name){
+        this->name = name;
     }
 
+    string SetCharacteristics(string characteristic){
+        this->characteristic = characteristic;
+    }
+ 
     // Display fish information
-    void displayFishInfo() {
+    void Display() {
         cout << "ID: " << id << endl;
         cout << "Name: " << name << endl;
         cout << "Color: " << color << endl;
-        cout << "Characteristic: " << characteristic << endl;
-        cout << "------------------------" << endl;
+        cout << "Characteristic: "
+             << characteristic << endl;
+        cout << "-------------------" << endl;
     }
-};
+}; // Close class Fish
 
 int main() {
     // Create 5 Fish objects using different constructors
@@ -105,32 +107,12 @@ int main() {
     Fish fish5(5, "Guppy", "Blue",
                "Small and active");
 
-    // Display all 5 objects
-    cout << "=== Original Fish Information ===" << endl;
-
-    fish1.displayFishInfo();
-    fish2.displayFishInfo();
-    fish3.displayFishInfo();
-    fish4.displayFishInfo();
-    fish5.displayFishInfo();
-
-    // Update fish3 using setter methods
-    fish3.setName("Angelfish");
-    fish3.setColor("Black and White");
-    fish3.setCharacteristic("Peaceful and elegant");
-
-    // Retrieve and print updated information using getters
-    cout << "\n=== Updated Fish Information (Getters) ===" << endl;
-
-    cout << "ID: " << fish3.getId() << endl;
-    cout << "Name: " << fish3.getName() << endl;
-    cout << "Color: " << fish3.getColor() << endl;
-    cout << "Characteristic: "
-         << fish3.getCharacteristic() << endl;
-
-    // Display again to verify changes
-    cout << "\n=== Verify Updated Fish ===" << endl;
-    fish3.displayFishInfo();
+    // Display information
+    fish1.Display();
+    fish2.Display();
+    fish3.Display();
+    fish4.Display();
+    fish5.Display();
 
     return 0;
 }
