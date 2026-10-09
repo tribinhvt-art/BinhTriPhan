@@ -71,24 +71,24 @@ public:
 
     // Setters method
 
-    int SetId(int id){
+    void SetId(int id){
         this->id = id;
     }
 
-    string SetColor(string color){
+    void SetColor(string color){
         this->color = color;
     }
 
-    string SetName(string name){
+    void SetName(string name){
         this->name = name;
     }
 
-    string SetCharacteristics(string characteristic){
+    void SetCharacteristics(string characteristic){
         this->characteristic = characteristic;
     }
  
     // Display fish information
-    void Display() {
+    void displayFishInfo() {
         cout << "ID: " << id << endl;
         cout << "Name: " << name << endl;
         cout << "Color: " << color << endl;
@@ -108,11 +108,27 @@ int main() {
                "Small and active");
 
     // Display information
-    fish1.Display();
-    fish2.Display();
-    fish3.Display();
-    fish4.Display();
-    fish5.Display();
+    fish1.displayFishInfo();
+    fish2.displayFishInfo();
+    fish3.displayFishInfo();
+    fish4.displayFishInfo();    
+    fish5.displayFishInfo();
+
+    //update name,color, and characteristics of one Object
+    fish1.SetName("Delta");
+    fish1.SetId(84971547707);
+    fish1.SetColor("Orange");
+    fish1.SetCharacteristics("string");
+
+    //Retrieving information of updated object
+    cout << "Name is: " <<fish1.GetName() << endl;
+    cout << "Color is: " <<fish1.GetColor() << endl;
+    cout << "Id is: " <<fish1.Getid() << endl;
+    cout << "Characteristic is: " <<fish1.GetCharacteristics() << endl;
+
+
+    cout << "\n=== Verify Updated Fish ===" << endl;
+    fish1.displayFishInfo();
 
     return 0;
 }
