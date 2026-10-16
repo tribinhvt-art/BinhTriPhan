@@ -1,54 +1,30 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 #include <iomanip>
 using namespace std;
 
-// ==================== EMPLOYEE ====================
+// ==================== CLASS EMPLOYEE ====================
 class Employee {
 private:
-    string id;
-    string name;
     string cccd;
     string phone;
     string address;
 
 public:
     Employee() {
-        id = "";
-        name = "";
         cccd = "";
         phone = "";
         address = "";
     }
 
-    Employee(string id, string name) {
-        this->id = id;
-        this->name = name;
-        cccd = "";
-        phone = "";
-        address = "";
+    Employee(string c, string p, string a) {
+        cccd = c;
+        phone = p;
+        address = a;
     }
 
-    // Bo sung constructor theo code giang vien
-    Employee(string id, string name, string cccd,
-             string phone, string address) {
-        this->id = id;
-        this->name = name;
-        this->cccd = cccd;
-        this->phone = phone;
-        this->address = address;
-    }
-
-    string getId() const {
-        return id;
-    }
-
-    string getName() const {
-        return name;
-    }
-
+    // Getter
     string getCCCD() const {
         return cccd;
     }
@@ -61,86 +37,57 @@ public:
         return address;
     }
 
-    void setId(string id) {
-        this->id = id;
+    // Setter
+    void setCCCD(string c) {
+        cccd = c;
     }
 
-    void setName(string name) {
-        this->name = name;
+    void setPhone(string p) {
+        phone = p;
     }
 
-    void setCCCD(string cccd) {
-        this->cccd = cccd;
+    void setAddress(string a) {
+        address = a;
     }
 
-    void setPhone(string phone) {
-        this->phone = phone;
-    }
+    virtual double calculateSalary(int month, int year) = 0;
 
-    void setAddress(string address) {
-        this->address = address;
-    }
-
-    // Bo sung displayInfo theo code giang vien
-    virtual void displayInfo() const {
-        cout << "ID: " << id << endl;
-        cout << "Name: " << name << endl;
+    virtual void displayInfo() {
         cout << "CCCD: " << cccd << endl;
         cout << "Phone: " << phone << endl;
         cout << "Address: " << address << endl;
     }
 
-    virtual void display() const {
-        displayInfo();
-    }
-
-    // Chuyen thanh ham thuan ao nhu code giang vien
-    virtual double calculateSalary(int month, int year) const = 0;
-
-    virtual ~Employee() {}
+    virtual ~Employee() = default;
 };
 
 // ==================== HOURLY EMPLOYEE ====================
 class HourlyEmployee : public Employee {
 private:
-    // Bo sung de luu nhieu ky luong trong mot nam
-    struct SalaryRecord {
-        double hours;
-        int month;
-        int year;
-    };
-
-    vector<SalaryRecord> records;
+    int hours;
     double salaryPerHour;
+    int month, year;
 
 public:
     HourlyEmployee() : Employee() {
+        hours = 0;
         salaryPerHour = 0;
+        month = 0;
+        year = 0;
     }
 
-    HourlyEmployee(string id, string name,
-                   double hours, double salaryPerHour,
-                   int month, int year)
-        : Employee(id, name) {
-        this->salaryPerHour = salaryPerHour;
-        records.push_back({hours, month, year});
+    HourlyEmployee(string c, string p, string a,
+                   int h, double s, int m, int y)
+        : Employee(c, p, a) {
+        hours = h;
+        salaryPerHour = s;
+        month = m;
+        year = y;
     }
 
-    // Bo sung constructor co thong tin theo code giang vien
-    HourlyEmployee(string id, string name,
-                   string cccd, string phone, string address,
-                   double hours, double salaryPerHour,
-                   int month, int year)
-        : Employee(id, name, cccd, phone, address) {
-        this->salaryPerHour = salaryPerHour;
-        records.push_back({hours, month, year});
-    }
-
-    double getHours() const {
-        if (records.empty()) {
-            return 0;
-        }
-        return records.back().hours;
+    // Getter
+    int getHours() const {
+        return hours;
     }
 
     double getSalaryPerHour() const {
@@ -148,72 +95,45 @@ public:
     }
 
     int getMonth() const {
-        if (records.empty()) {
-            return 0;
-        }
-        return records.back().month;
+        return month;
     }
 
     int getYear() const {
-        if (records.empty()) {
-            return 0;
+        return year;
+    }
+
+    // Setter
+    void setHours(int h) {
+        hours = h;
+    }
+
+    void setSalaryPerHour(double s) {
+        salaryPerHour = s;
+    }
+
+    void setMonth(int m) {
+        month = m;
+    }
+
+    void setYear(int y) {
+        year = y;
+    }
+
+    double calculateSalary(int m, int y) override {
+        if (y == year && m == month) {
+            return hours * salaryPerHour;
         }
-        return records.back().year;
+        return 0;
     }
 
-    void setHours(double hours) {
-        if (!records.empty()) {
-            records.back().hours = hours;
-        }
-    }
-
-    void setSalaryPerHour(double salaryPerHour) {
-        this->salaryPerHour = salaryPerHour;
-    }
-
-    void setMonth(int month) {
-        if (!records.empty()) {
-            records.back().month = month;
-        }
-    }
-
-    void setYear(int year) {
-        if (!records.empty()) {
-            records.back().year = year;
-        }
-    }
-
-    // Them ky luong moi theo vi du cua giang vien
-    void addRecord(double hours, int month, int year) {
-        records.push_back({hours, month, year});
-    }
-
-    double calculateSalary(int month, int year) const override {
-        double salary = 0;
-
-        for (const SalaryRecord& record : records) {
-            if (record.month == month && record.year == year) {
-                salary += record.hours * salaryPerHour;
-            }
-        }
-
-        return salary;
-    }
-
-    void displayInfo() const override {
+    void displayInfo() override {
+        cout << "\n--- HOURLY EMPLOYEE ---" << endl;
         Employee::displayInfo();
-        cout << "Salary per hour: " << salaryPerHour << endl;
-
-        cout << "Salary records:" << endl;
-        for (const SalaryRecord& record : records) {
-            cout << "Month: " << record.month
-                 << ", Year: " << record.year
-                 << ", Hours: " << record.hours << endl;
-        }
-    }
-
-    void display() const override {
-        displayInfo();
+        cout << "Hours: " << hours << endl;
+        cout << "Salary per hour: "
+             << salaryPerHour << endl;
+        cout << "Month: " << month << endl;
+        cout << "Year: " << year << endl;
     }
 };
 
@@ -221,34 +141,24 @@ public:
 class MonthlyEmployee : public Employee {
 private:
     double monthlySalary;
-    int month;
-    int year;
+    int month, year;
 
 public:
     MonthlyEmployee() : Employee() {
         monthlySalary = 0;
-        month = 1;
-        year = 2026;
+        month = 0;
+        year = 0;
     }
 
-    MonthlyEmployee(string id, string name,
-                    double monthlySalary, int month, int year)
-        : Employee(id, name) {
-        this->monthlySalary = monthlySalary;
-        this->month = month;
-        this->year = year;
+    MonthlyEmployee(string c, string p, string a,
+                    double s, int m, int y)
+        : Employee(c, p, a) {
+        monthlySalary = s;
+        month = m;
+        year = y;
     }
 
-    // Bo sung constructor theo code giang vien
-    MonthlyEmployee(string id, string name,
-                    string cccd, string phone, string address,
-                    double monthlySalary, int month, int year)
-        : Employee(id, name, cccd, phone, address) {
-        this->monthlySalary = monthlySalary;
-        this->month = month;
-        this->year = year;
-    }
-
+    // Getter
     double getMonthlySalary() const {
         return monthlySalary;
     }
@@ -261,34 +171,33 @@ public:
         return year;
     }
 
-    void setMonthlySalary(double monthlySalary) {
-        this->monthlySalary = monthlySalary;
+    // Setter
+    void setMonthlySalary(double s) {
+        monthlySalary = s;
     }
 
-    void setMonth(int month) {
-        this->month = month;
+    void setMonth(int m) {
+        month = m;
     }
 
-    void setYear(int year) {
-        this->year = year;
+    void setYear(int y) {
+        year = y;
     }
 
-    double calculateSalary(int month, int year) const override {
-        if (this->month == month && this->year == year) {
+    double calculateSalary(int m, int y) override {
+        if (y == year && m == month) {
             return monthlySalary;
         }
         return 0;
     }
 
-    void displayInfo() const override {
+    void displayInfo() override {
+        cout << "\n--- MONTHLY EMPLOYEE ---" << endl;
         Employee::displayInfo();
-        cout << "Monthly salary: " << monthlySalary << endl;
+        cout << "Monthly salary: "
+             << monthlySalary << endl;
         cout << "Month: " << month << endl;
         cout << "Year: " << year << endl;
-    }
-
-    void display() const override {
-        displayInfo();
     }
 };
 
@@ -297,39 +206,26 @@ class DailyEmployee : public Employee {
 private:
     int numberOfDays;
     double salaryPerDay;
-    int month;
-    int year;
+    int month, year;
 
 public:
     DailyEmployee() : Employee() {
         numberOfDays = 0;
         salaryPerDay = 0;
-        month = 1;
-        year = 2026;
+        month = 0;
+        year = 0;
     }
 
-    DailyEmployee(string id, string name,
-                  int numberOfDays, double salaryPerDay,
-                  int month, int year)
-        : Employee(id, name) {
-        this->numberOfDays = numberOfDays;
-        this->salaryPerDay = salaryPerDay;
-        this->month = month;
-        this->year = year;
+    DailyEmployee(string c, string p, string a,
+                  int d, double s, int m, int y)
+        : Employee(c, p, a) {
+        numberOfDays = d;
+        salaryPerDay = s;
+        month = m;
+        year = y;
     }
 
-    // Bo sung constructor theo code giang vien
-    DailyEmployee(string id, string name,
-                  string cccd, string phone, string address,
-                  int numberOfDays, double salaryPerDay,
-                  int month, int year)
-        : Employee(id, name, cccd, phone, address) {
-        this->numberOfDays = numberOfDays;
-        this->salaryPerDay = salaryPerDay;
-        this->month = month;
-        this->year = year;
-    }
-
+    // Getter
     int getNumberOfDays() const {
         return numberOfDays;
     }
@@ -346,50 +242,52 @@ public:
         return year;
     }
 
-    void setNumberOfDays(int numberOfDays) {
-        this->numberOfDays = numberOfDays;
+    // Setter
+    void setNumberOfDays(int d) {
+        numberOfDays = d;
     }
 
-    void setSalaryPerDay(double salaryPerDay) {
-        this->salaryPerDay = salaryPerDay;
+    void setSalaryPerDay(double s) {
+        salaryPerDay = s;
     }
 
-    void setMonth(int month) {
-        this->month = month;
+    void setMonth(int m) {
+        month = m;
     }
 
-    void setYear(int year) {
-        this->year = year;
+    void setYear(int y) {
+        year = y;
     }
 
-    double calculateSalary(int month, int year) const override {
-        if (this->month == month && this->year == year) {
+    double calculateSalary(int m, int y) override {
+        if (y == year && m == month) {
             return numberOfDays * salaryPerDay;
         }
         return 0;
     }
 
-    void displayInfo() const override {
+    void displayInfo() override {
+        cout << "\n--- DAILY EMPLOYEE ---" << endl;
         Employee::displayInfo();
-        cout << "Number of days: " << numberOfDays << endl;
-        cout << "Salary per day: " << salaryPerDay << endl;
+        cout << "Number of days: "
+             << numberOfDays << endl;
+        cout << "Salary per day: "
+             << salaryPerDay << endl;
         cout << "Month: " << month << endl;
         cout << "Year: " << year << endl;
     }
-
-    void display() const override {
-        displayInfo();
-    }
 };
 
-// ==================== TINH LUONG CA NAM ====================
-// Bo sung ham giang vien chua hoan thanh
-double calculateYearlySalary(Employee* employees[], int count, int year) {
+// ==================== CALCULATE YEARLY SALARY ====================
+double calculateYearlySalary(
+    Employee* employees[], int n, int year
+) {
     double totalSalary = 0;
 
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < n; i++) {
         for (int month = 1; month <= 12; month++) {
-            totalSalary += employees[i]->calculateSalary(month, year);
+            totalSalary +=
+                employees[i]->calculateSalary(month, year);
         }
     }
 
@@ -399,72 +297,64 @@ double calculateYearlySalary(Employee* employees[], int count, int year) {
 // ==================== MAIN ====================
 int main() {
     HourlyEmployee h(
-        "E01", "Nguyen Van A",
         "001", "0901", "HCM",
-        26, 50000, 1, 2026
+        160, 50000, 10, 2026
     );
 
-    // Them cac ky luong theo vi du cua giang vien
-    h.addRecord(24, 2, 2026);
-    h.addRecord(30, 12, 2026);
-
     MonthlyEmployee m(
-        "E02", "Tran Thi B",
         "002", "0902", "Dong Nai",
         15000000, 10, 2026
     );
 
     DailyEmployee d(
-        "E03", "Le Van C",
         "003", "0903", "Ha Noi",
         22, 400000, 10, 2026
     );
 
-    // Con tro lop cha tro den cac doi tuong lop con
-    Employee* employees[] = {&h, &m, &d};
-    int count = sizeof(employees) / sizeof(employees[0]);
-
-    int month, year;
-
-    cout << "Enter month: ";
-    cin >> month;
-
-    cout << "Enter year: ";
-    cin >> year;
-
-    if (month < 1 || month > 12) {
-        cout << "Invalid month!" << endl;
-        return 1;
-    }
+    Employee* employees[] = { &h, &m, &d };
+    int n = 3;
 
     cout << fixed << setprecision(0);
 
-    // Hien thi thong tin va luong theo thang da chon
-    for (int i = 0; i < count; i++) {
-        cout << "\n========== EMPLOYEE " << i + 1 << " ==========" << endl;
-        employees[i]->display();
+    // Hien thi thong tin nhan vien
+    h.displayInfo();
+    m.displayInfo();
+    d.displayInfo();
 
-        cout << "Salary for " << month << "/" << year << ": "
-             << employees[i]->calculateSalary(month, year)
-             << " VND" << endl;
+    // Tinh luong thang
+    int selectedMonth = 10;
+    int selectedYear = 2026;
+
+    cout << "\n===== MONTHLY SALARY =====" << endl;
+
+    double totalMonthlySalary = 0;
+
+    for (int i = 0; i < n; i++) {
+        double salary = employees[i]->calculateSalary(
+            selectedMonth, selectedYear
+        );
+
+        cout << "Employee " << i + 1
+             << ": " << salary << " VND" << endl;
+
+        totalMonthlySalary += salary;
     }
 
-    // Tinh luong ca nam cua tung nhan vien
-    cout << "\n========== YEARLY SALARY ==========" << endl;
+    cout << "Total monthly salary: "
+         << totalMonthlySalary << " VND" << endl;
 
-    for (int i = 0; i < count; i++) {
-        Employee* oneEmployee[] = {employees[i]};
+    // Tinh tong luong theo nam
+    cout << "\n===== YEARLY SALARY =====" << endl;
 
-        cout << employees[i]->getId() << " - "
-             << employees[i]->getName() << ": "
-             << calculateYearlySalary(oneEmployee, 1, year)
-             << " VND" << endl;
-    }
+    int selectedYearForSalary = 2026;
 
-    // Tong luong ca nam cua tat ca nhan vien
-    cout << "\nTotal yearly salary: "
-         << calculateYearlySalary(employees, count, year)
-         << " VND" << endl;
+    double yearlySalary = calculateYearlySalary(
+        employees, n, selectedYearForSalary
+    );
+
+    cout << "Total salary in "
+         << selectedYearForSalary << ": "
+         << yearlySalary << " VND" << endl;
 
     return 0;
 }
