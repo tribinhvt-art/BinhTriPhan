@@ -1,358 +1,360 @@
+
 #include <iostream>
 #include <string>
+#include <vector>
 #include <iomanip>
 using namespace std;
 
-// ==================== CLASS EMPLOYEE ====================
-class Employee {
+// ==================== PRODUCT MANAGEMENT ====================
+class SellableItem {
 private:
-    string cccd;
-    string phone;
-    string address;
+    string productName;
+    int quantitySold;
+    double price;
+    string dateSold;
 
 public:
-    Employee() {
-        cccd = "";
-        phone = "";
-        address = "";
+    SellableItem(string name, int quantity, double unitPrice, string date)
+        : productName(name), quantitySold(quantity),
+          price(unitPrice), dateSold(date) {}
+
+    string getProductName() const { return productName; }
+    int getQuantitySold() const { return quantitySold; }
+    double getPrice() const { return price; }
+    string getDateSold() const { return dateSold; }
+
+    double revenue() const {
+        return quantitySold * price;
     }
 
-    Employee(string c, string p, string a) {
-        cccd = c;
-        phone = p;
-        address = a;
+    virtual string category() const = 0;
+
+    void showSale() const {
+        cout << left << setw(16) << productName
+             << "Quantity: " << setw(4) << quantitySold
+             << "Revenue: " << revenue() << " VND\n";
     }
 
-    // Getter
-    string getCCCD() const {
-        return cccd;
-    }
-
-    string getPhone() const {
-        return phone;
-    }
-
-    string getAddress() const {
-        return address;
-    }
-
-    // Setter
-    void setCCCD(string c) {
-        cccd = c;
-    }
-
-    void setPhone(string p) {
-        phone = p;
-    }
-
-    void setAddress(string a) {
-        address = a;
-    }
-
-    virtual double calculateSalary(int month, int year) = 0;
-
-    virtual void displayInfo() {
-        cout << "CCCD: " << cccd << endl;
-        cout << "Phone: " << phone << endl;
-        cout << "Address: " << address << endl;
-    }
-
-    virtual ~Employee() = default;
+    virtual ~SellableItem() = default;
 };
 
-// ==================== HOURLY EMPLOYEE ====================
-class HourlyEmployee : public Employee {
+class Drinks : public SellableItem {
+public:
+    Drinks(string name, int quantity, double price, string date)
+        : SellableItem(name, quantity, price, date) {}
+
+    string category() const override {
+        return "Drinks";
+    }
+};
+
+class Coffee : public Drinks {
+public:
+    Coffee(int quantity, double price, string date)
+        : Drinks("Coffee", quantity, price, date) {}
+};
+
+class Tea : public Drinks {
+public:
+    Tea(int quantity, double price, string date)
+        : Drinks("Tea", quantity, price, date) {}
+};
+
+class Smoothies : public Drinks {
+public:
+    Smoothies(int quantity, double price, string date)
+        : Drinks("Smoothies", quantity, price, date) {}
+};
+
+class Juices : public Drinks {
+public:
+    Juices(int quantity, double price, string date)
+        : Drinks("Juices", quantity, price, date) {}
+};
+
+class Foods : public SellableItem {
+public:
+    Foods(string name, int quantity, double price, string date)
+        : SellableItem(name, quantity, price, date) {}
+
+    string category() const override {
+        return "Foods";
+    }
+};
+
+class Cake : public Foods {
+public:
+    Cake(int quantity, double price, string date)
+        : Foods("Cake", quantity, price, date) {}
+};
+
+class Bread : public Foods {
+public:
+    Bread(int quantity, double price, string date)
+        : Foods("Bread", quantity, price, date) {}
+};
+
+// ==================== REVENUE CALCULATION ====================
+void reportRevenue(const vector<SellableItem*>& sales, string chosenDate) {
+    double drinkIncome = 0;
+    double foodIncome = 0;
+
+    cout << "\n========== SALES REPORT ==========\n";
+    cout << "Date: " << chosenDate << "\n\n";
+
+    for (const SellableItem* sale : sales) {
+        if (sale->getDateSold() != chosenDate) {
+            continue;
+        }
+
+        sale->showSale();
+
+        if (sale->category() == "Drinks") {
+            drinkIncome += sale->revenue();
+        } else if (sale->category() == "Foods") {
+            foodIncome += sale->revenue();
+        }
+    }
+
+    cout << "\nDrinks revenue: " << drinkIncome << " VND\n";
+    cout << "Foods revenue: " << foodIncome << " VND\n";
+    cout << "Combined revenue: "
+         << drinkIncome + foodIncome << " VND\n";
+}
+
+// ==================== STAFF MANAGEMENT ====================
+class Staff {
 private:
-    int hours;
-    double salaryPerHour;
-    int month, year;
+    string identityNumber;
+    string contactNumber;
+    string residence;
 
 public:
-    HourlyEmployee() : Employee() {
-        hours = 0;
-        salaryPerHour = 0;
-        month = 0;
-        year = 0;
+    Staff() : identityNumber(""), contactNumber(""), residence("") {}
+
+    Staff(string id, string phone, string address)
+        : identityNumber(id), contactNumber(phone), residence(address) {}
+
+    string getIdentityNumber() const { return identityNumber; }
+    string getContactNumber() const { return contactNumber; }
+    string getResidence() const { return residence; }
+
+    void setIdentityNumber(string id) { identityNumber = id; }
+    void setContactNumber(string phone) { contactNumber = phone; }
+    void setResidence(string address) { residence = address; }
+
+    virtual double salaryFor(int month, int year) = 0;
+
+    virtual void showStaff() const {
+        cout << "Identity number: " << identityNumber << '\n';
+        cout << "Contact number: " << contactNumber << '\n';
+        cout << "Residence: " << residence << '\n';
     }
 
-    HourlyEmployee(string c, string p, string a,
-                   int h, double s, int m, int y)
-        : Employee(c, p, a) {
-        hours = h;
-        salaryPerHour = s;
-        month = m;
-        year = y;
-    }
+    virtual ~Staff() = default;
+};
 
-    // Getter
-    int getHours() const {
-        return hours;
-    }
+class HourlyStaff : public Staff {
+private:
+    int hoursCompleted;
+    double ratePerHour;
+    int salaryMonth, salaryYear;
 
-    double getSalaryPerHour() const {
-        return salaryPerHour;
-    }
+public:
+    HourlyStaff()
+        : Staff(), hoursCompleted(0), ratePerHour(0),
+          salaryMonth(0), salaryYear(0) {}
 
-    int getMonth() const {
-        return month;
-    }
+    HourlyStaff(string id, string phone, string address,
+                int hours, double rate, int month, int year)
+        : Staff(id, phone, address), hoursCompleted(hours),
+          ratePerHour(rate), salaryMonth(month), salaryYear(year) {}
 
-    int getYear() const {
-        return year;
-    }
+    int getHoursCompleted() const { return hoursCompleted; }
+    double getRatePerHour() const { return ratePerHour; }
+    int getSalaryMonth() const { return salaryMonth; }
+    int getSalaryYear() const { return salaryYear; }
 
-    // Setter
-    void setHours(int h) {
-        hours = h;
-    }
+    void setHoursCompleted(int hours) { hoursCompleted = hours; }
+    void setRatePerHour(double rate) { ratePerHour = rate; }
+    void setSalaryMonth(int month) { salaryMonth = month; }
+    void setSalaryYear(int year) { salaryYear = year; }
 
-    void setSalaryPerHour(double s) {
-        salaryPerHour = s;
-    }
-
-    void setMonth(int m) {
-        month = m;
-    }
-
-    void setYear(int y) {
-        year = y;
-    }
-
-    double calculateSalary(int m, int y) override {
-        if (y == year && m >= 1 && m <= 12) {
-            return hours * salaryPerHour;
-        }
+    double salaryFor(int month, int year) override {
+        if (month == salaryMonth && year == salaryYear)
+            return hoursCompleted * ratePerHour;
         return 0;
     }
 
-    void displayInfo() override {
-        cout << "\n--- HOURLY EMPLOYEE ---" << endl;
-        Employee::displayInfo();
-        cout << "Hours: " << hours << endl;
-        cout << "Salary per hour: "
-             << salaryPerHour << endl;
+    void showStaff() const override {
+        cout << "\n--- HOURLY STAFF ---\n";
+        Staff::showStaff();
+        cout << "Hours completed: " << hoursCompleted << '\n';
+        cout << "Rate per hour: " << ratePerHour << '\n';
+        cout << "Salary period: " << salaryMonth << '/'
+             << salaryYear << '\n';
     }
 };
 
-// ==================== MONTHLY EMPLOYEE ====================
-class MonthlyEmployee : public Employee {
+class MonthlyStaff : public Staff {
 private:
-    double monthlySalary;
-    int month, year;
+    double fixedPay;
+    int salaryMonth, salaryYear;
 
 public:
-    MonthlyEmployee() : Employee() {
-        monthlySalary = 0;
-        month = 0;
-        year = 0;
-    }
+    MonthlyStaff()
+        : Staff(), fixedPay(0), salaryMonth(0), salaryYear(0) {}
 
-    MonthlyEmployee(string c, string p, string a,
-                    double s, int m, int y)
-        : Employee(c, p, a) {
-        monthlySalary = s;
-        month = m;
-        year = y;
-    }
+    MonthlyStaff(string id, string phone, string address,
+                 double pay, int month, int year)
+        : Staff(id, phone, address), fixedPay(pay),
+          salaryMonth(month), salaryYear(year) {}
 
-    // Getter
-    double getMonthlySalary() const {
-        return monthlySalary;
-    }
+    double getFixedPay() const { return fixedPay; }
+    int getSalaryMonth() const { return salaryMonth; }
+    int getSalaryYear() const { return salaryYear; }
 
-    int getMonth() const {
-        return month;
-    }
+    void setFixedPay(double pay) { fixedPay = pay; }
+    void setSalaryMonth(int month) { salaryMonth = month; }
+    void setSalaryYear(int year) { salaryYear = year; }
 
-    int getYear() const {
-        return year;
-    }
-
-    // Setter
-    void setMonthlySalary(double s) {
-        monthlySalary = s;
-    }
-
-    void setMonth(int m) {
-        month = m;
-    }
-
-    void setYear(int y) {
-        year = y;
-    }
-
-    double calculateSalary(int m, int y) override {
-        if (y == year && m >= 1 && m <= 12) {
-            return monthlySalary;
-        }
+    double salaryFor(int month, int year) override {
+        if (month == salaryMonth && year == salaryYear)
+            return fixedPay;
         return 0;
     }
 
-    void displayInfo() override {
-        cout << "\n--- MONTHLY EMPLOYEE ---" << endl;
-        Employee::displayInfo();
-        cout << "Monthly salary: "
-             << monthlySalary << endl;
+    void showStaff() const override {
+        cout << "\n--- MONTHLY STAFF ---\n";
+        Staff::showStaff();
+        cout << "Fixed pay: " << fixedPay << '\n';
+        cout << "Salary period: " << salaryMonth << '/'
+             << salaryYear << '\n';
     }
 };
 
-// ==================== DAILY EMPLOYEE ====================
-class DailyEmployee : public Employee {
+class DailyStaff : public Staff {
 private:
-    int numberOfDays;
-    double salaryPerDay;
-    int month, year;
+    int daysCompleted;
+    double ratePerDay;
+    int salaryMonth, salaryYear;
 
 public:
-    DailyEmployee() : Employee() {
-        numberOfDays = 0;
-        salaryPerDay = 0;
-        month = 0;
-        year = 0;
-    }
+    DailyStaff()
+        : Staff(), daysCompleted(0), ratePerDay(0),
+          salaryMonth(0), salaryYear(0) {}
 
-    DailyEmployee(string c, string p, string a,
-                  int d, double s, int m, int y)
-        : Employee(c, p, a) {
-        numberOfDays = d;
-        salaryPerDay = s;
-        month = m;
-        year = y;
-    }
+    DailyStaff(string id, string phone, string address,
+               int days, double rate, int month, int year)
+        : Staff(id, phone, address), daysCompleted(days),
+          ratePerDay(rate), salaryMonth(month), salaryYear(year) {}
 
-    // Getter
-    int getNumberOfDays() const {
-        return numberOfDays;
-    }
+    int getDaysCompleted() const { return daysCompleted; }
+    double getRatePerDay() const { return ratePerDay; }
+    int getSalaryMonth() const { return salaryMonth; }
+    int getSalaryYear() const { return salaryYear; }
 
-    double getSalaryPerDay() const {
-        return salaryPerDay;
-    }
+    void setDaysCompleted(int days) { daysCompleted = days; }
+    void setRatePerDay(double rate) { ratePerDay = rate; }
+    void setSalaryMonth(int month) { salaryMonth = month; }
+    void setSalaryYear(int year) { salaryYear = year; }
 
-    int getMonth() const {
-        return month;
-    }
-
-    int getYear() const {
-        return year;
-    }
-
-    // Setter
-    void setNumberOfDays(int d) {
-        numberOfDays = d;
-    }
-
-    void setSalaryPerDay(double s) {
-        salaryPerDay = s;
-    }
-
-    void setMonth(int m) {
-        month = m;
-    }
-
-    void setYear(int y) {
-        year = y;
-    }
-
-    double calculateSalary(int m, int y) override {
-        if (y == year && m >= 1 && m <= 12) {
-            return numberOfDays * salaryPerDay;
-        }
+    double salaryFor(int month, int year) override {
+        if (month == salaryMonth && year == salaryYear)
+            return daysCompleted * ratePerDay;
         return 0;
     }
 
-    void displayInfo() override {
-        cout << "\n--- DAILY EMPLOYEE ---" << endl;
-        Employee::displayInfo();
-        cout << "Number of days: "
-             << numberOfDays << endl;
-        cout << "Salary per day: "
-             << salaryPerDay << endl;
+    void showStaff() const override {
+        cout << "\n--- DAILY STAFF ---\n";
+        Staff::showStaff();
+        cout << "Days completed: " << daysCompleted << '\n';
+        cout << "Rate per day: " << ratePerDay << '\n';
+        cout << "Salary period: " << salaryMonth << '/'
+             << salaryYear << '\n';
     }
 };
 
-// ==================== CALCULATE YEARLY SALARY ====================
-double calculateYearlySalary(
-    Employee* employees[], int n, int year
+// ==================== PAYROLL REPORTS ====================
+void reportMonthlyPayroll(
+    Staff* staffMembers[], int memberCount, int month, int year
 ) {
-    double totalSalary = 0;
+    double monthTotal = 0;
 
-    for (int i = 0; i < n; i++) {
+    cout << "\n========== MONTHLY PAYROLL ==========\n";
+
+    for (int i = 0; i < memberCount; i++) {
+        double amount = staffMembers[i]->salaryFor(month, year);
+        cout << "Staff " << i + 1 << ": " << amount << " VND\n";
+        monthTotal += amount;
+    }
+
+    cout << "Total for month: " << monthTotal << " VND\n";
+}
+
+double reportYearlyPayroll(
+    Staff* staffMembers[], int memberCount, int year
+) {
+    double yearTotal = 0;
+
+    for (int i = 0; i < memberCount; i++) {
         for (int month = 1; month <= 12; month++) {
-            totalSalary +=
-                employees[i]->calculateSalary(month, year);
+            yearTotal += staffMembers[i]->salaryFor(month, year);
         }
     }
 
-    return totalSalary;
+    return yearTotal;
 }
 
 // ==================== MAIN ====================
 int main() {
-    HourlyEmployee h(
-        "001", "0901", "HCM",
-        160, 50000, 10, 2026
-    );
-
-    MonthlyEmployee m(
-        "002", "0902", "Dong Nai",
-        15000000, 10, 2026
-    );
-
-    DailyEmployee d(
-        "003", "0903", "Ha Noi",
-        22, 400000, 10, 2026
-    );
-
-    Employee* employees[] = { &h, &m, &d };
-    int n = 3;
-
     cout << fixed << setprecision(0);
 
-    // Hien thi thong tin nhan vien
-    h.displayInfo();
-    m.displayInfo();
-    d.displayInfo();
-
-    // Tinh luong thang
-    int selectedMonth = 10;
-    int selectedYear = 2026;
-
-    cout << "\n===== MONTHLY SALARY =====" << endl;
-
-    double totalMonthlySalary = 0;
-
-    for (int i = 0; i < n; i++) {
-        double salary = employees[i]->calculateSalary(
-            selectedMonth, selectedYear
-        );
-
-        cout << "Employee " << i + 1
-             << ": " << salary << " VND" << endl;
-
-        totalMonthlySalary += salary;
-    }
-
-    cout << "Total monthly salary: "
-         << totalMonthlySalary << " VND" << endl;
-
-    // Tinh tong luong theo nam
-    cout << "\n===== YEARLY SALARY =====" << endl;
-
-    int selectedYearForSalary = 2026;
-
-    double yearlySalary = calculateYearlySalary(
-        employees, n, selectedYearForSalary
+    // Create staff records
+    HourlyStaff staffA(
+        "001", "0901", "HCM", 160, 50000, 10, 2026
     );
 
-    cout << "Total salary in "
-         << selectedYearForSalary << ": "
-         << yearlySalary << " VND" << endl;
+    MonthlyStaff staffB(
+        "002", "0902", "Dong Nai", 15000000, 10, 2026
+    );
+
+    DailyStaff staffC(
+        "003", "0903", "Ha Noi", 22, 400000, 10, 2026
+    );
+
+    Staff* staffMembers[] = {&staffA, &staffB, &staffC};
+    int memberCount = 3;
+
+    cout << "========== STAFF INFORMATION ==========\n";
+
+    for (Staff* member : staffMembers) {
+        member->showStaff();
+    }
+
+    reportMonthlyPayroll(staffMembers, memberCount, 10, 2026);
+
+    cout << "\n========== YEARLY PAYROLL ==========\n";
+    cout << "Yearly total for 2026: "
+         << reportYearlyPayroll(staffMembers, memberCount, 2026)
+         << " VND\n";
+
+    // Record product sales
+    vector<SellableItem*> sales;
+
+    sales.push_back(new Coffee(10, 30000, "16/10/2026"));
+    sales.push_back(new Tea(8, 25000, "16/10/2026"));
+    sales.push_back(new Smoothies(5, 40000, "16/10/2026"));
+    sales.push_back(new Juices(6, 20000, "16/10/2026"));
+    sales.push_back(new Cake(4, 35000, "16/10/2026"));
+    sales.push_back(new Bread(12, 15000, "16/10/2026"));
+    sales.push_back(new Coffee(3, 30000, "15/10/2026"));
+
+    reportRevenue(sales, "16/10/2026");
+
+    for (SellableItem* sale : sales) {
+        delete sale;
+    }
 
     return 0;
 }
-```
-bài1
-copy logic của bài1
-
-sửa lại bài này
