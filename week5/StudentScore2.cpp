@@ -272,9 +272,9 @@ void compareAdjacent(double studentPoints[], int N) {
         if (studentPoints[i] > studentPoints[i - 1]) {
 
             cout << "Student "
-                 << i + 1
+                 << i 
                  << " improved compared to Student "
-                 << i
+                 << i - 1
                  << "\n";
         }
     }

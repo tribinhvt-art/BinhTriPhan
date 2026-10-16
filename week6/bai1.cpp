@@ -24,7 +24,7 @@ void showMenu() {
     cout << "================" << endl;
 }
 
-void printStudentInfo (string studentName, string studentId, double score) {
+void printStudentInfo (string studentName, string studentId) {
     cout << "----------------------" << endl;
     cout << "Name:" << studentName << endl;
     cout << "Id:" << studentId << endl;
