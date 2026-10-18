@@ -2,19 +2,20 @@
 #include <vector>
 using namespace std;
 
-void insertArray(vector<int>& a, vector<int>& b) {
-    a.insert(a.begin() + 2, b.begin(), b.end());
+void combine(vector<int>& x, vector<int>& y, int p) {
+    for (int i = 0; i < y.size(); i++) {
+        x.insert(x.begin() + p + i, y[i]);
+    }
 }
 
 int main() {
-    vector<int> a = {1, 2, 3, 4, 5};
-    vector<int> b = {9, 9};
+    vector<int> x = {4, 6, 8};
+    vector<int> y = {2, 3};
 
-    insertArray(a, b);
+    combine(x, y, 1);
 
-    for (int x : a) {
-        cout << x << " ";
-    }
+    for (int n : x)
+        cout << n << " ";
 
     return 0;
 }
